@@ -1,5 +1,7 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 const getAllproducts = async() =>{
-    const response = await fetch('http://localhost:3000/products', {
+    const response = await fetch(`${API_URL}/products`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +14,7 @@ const getAllproducts = async() =>{
     return products;
 };
 const getProductById = async (productId) => {
-    const response = await fetch(`http://localhost:3000/product/${productId}`, {
+    const response = await fetch(`${API_URL}/product/${productId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +28,7 @@ const getProductById = async (productId) => {
 };
 
 const addProductCart = async (payload) =>{
-    const response = await fetch(`http://localhost:3000/addCart`, {
+    const response = await fetch(`${API_URL}/addCart`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ const addProductCart = async (payload) =>{
 };
 
 const getCartitems = async (userId) =>{
-    const response = await fetch(`http://localhost:3000/cartItems`, {
+    const response = await fetch(`${API_URL}/cartItems`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +59,7 @@ const getCartitems = async (userId) =>{
 
 const removeCartItem = async (userId, productId, variant) => {
     console.log("Removing cart item:", { userId, productId, variant });
-    const response = await fetch(`http://localhost:3000/removeCartItem`, {
+    const response = await fetch(`${API_URL}/removeCartItem`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +74,7 @@ const removeCartItem = async (userId, productId, variant) => {
 }
 
 const cartQuantityChange = async (userId, productId, quantity) => {
-    const response = await fetch(`http://localhost:3000/updateCartItem`, {
+    const response = await fetch(`${API_URL}/updateCartItem`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -86,7 +88,7 @@ const cartQuantityChange = async (userId, productId, quantity) => {
     return updatedCartItem;
 }
 const addProductWishlist = async (payload) =>{
-    const response = await fetch(`http://localhost:3000/addWishlist`, {
+    const response = await fetch(`${API_URL}/addWishlist`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -101,7 +103,7 @@ const addProductWishlist = async (payload) =>{
 };
 
 const removeWishlistItem = async (payload) => {
-    const response = await fetch(`http://localhost:3000/removeWishlistItem`, {
+    const response = await fetch(`${API_URL}/removeWishlistItem`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -111,7 +113,7 @@ const removeWishlistItem = async (payload) => {
 }
 
 const getWishlistitems = async (userId) =>{
-    const response = await fetch(`http://localhost:3000/wishlistItems/${userId}`, {
+    const response = await fetch(`${API_URL}/wishlistItems/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

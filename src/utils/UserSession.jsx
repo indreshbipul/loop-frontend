@@ -1,5 +1,7 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 const userSession = async () => {
-  const response = await fetch('http://localhost:3000/session', {
+  const response = await fetch(`${API_URL}/session`, {
     method: 'GET',
     credentials: 'include', // ✅ Necessary for cookies/session
     headers: {
