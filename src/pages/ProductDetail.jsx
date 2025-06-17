@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useRef, useState as useLocalState } from "react"; // Add useLocalState for local loading
+import {useState as useLocalState } from "react"; // Add useLocalState for local loading
 import { useMemo } from "react";
 
 import productService from "../services/productServices.jsx";
@@ -16,6 +16,7 @@ function ProductDetail() {
   const [mainImage, setMainImage] = useState([]);
   const [inStock, setInstock] = useState(false);
   const [loadingCart, setLoadingCart] = useLocalState(false); 
+  const [loadingWishlish, setLoadingWishlist] = useLocalState(false); 
 
   useEffect(() => {
     productService.getProductById(id)
@@ -103,7 +104,7 @@ function ProductDetail() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-purple-500 border-solid mb-2"></div>
-      <div className="text-purple-600 text-center">Loading product data...</div>
+      <div className="text-purple-600 text-center">Loading...</div>
     </div>
   );
 }
@@ -153,7 +154,7 @@ function ProductDetail() {
   };
 
   const handelAddProductWishlist = () => {
-    setLoadingCart(true);
+    setLoadingWishlist(true);
     const productId = product?._id;
     const userId = userData?.user?._id;
 
@@ -171,11 +172,11 @@ function ProductDetail() {
     productService.addProductWishlist(payload)
       .then((response) => {
         refresh([]);
-        setLoadingCart(false);
+        setLoadingWishlist(false);
         console.log("Product added to cart successfully:", response);
       })
       .catch((error) => {
-        setLoadingCart(false);
+        setLoadingWishlist(false);
         console.error("Error adding product to cart:", error);
       });
   };
@@ -361,18 +362,26 @@ function ProductDetail() {
                     </svg>
                   ) : null}
                   {inStock ? 'Add to Cart' : 'Out of Stock'}
-                </button>
+                </button>      
                 <button
                   type="button"
-                  className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-semibold px-12 py-3 rounded-md transition shadow-md"
+                  className={`w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-semibold px-12 py-3 rounded-md transition shadow-md flex items-center justify-center gap-2 ${loadingWishlish ? "opacity-70 cursor-not-allowed" : ""}`}
                   onClick={(e) =>{ 
                     e.preventDefault
                     handelAddProductWishlist()
                   }}
                 >
+                  {loadingWishlish ? (
+                    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                  ) : null}
                   Add to Wishlist
-                </button>
+                </button>          
               </div>
+
+              
             </form>
           </section>
         </div>

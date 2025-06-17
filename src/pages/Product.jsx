@@ -3,7 +3,7 @@ import ProductCard from "../components/ProductCard";
 import productService from "../services/productServices";
 
 function Product() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [filteredFun, setFilterFun] = useState(()=>()=> true); 
   const [sortFun, setSortFun] = useState(() => () => true);
   useEffect(() => {

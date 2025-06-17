@@ -1,8 +1,11 @@
+import { useState } from "react";
+
 import useAuthHook from "../hooks/authHook";
 import productService from "../services/productServices";
 
 function CartCard({product, setCartItems}) {
   const{ userData, setUserData, refresh } = useAuthHook(); 
+  const [loadingCart, setLoadingCart] = useState(false);
   let variant 
   let newProductQuantity =1;
   if(!product) {    
@@ -12,12 +15,15 @@ function CartCard({product, setCartItems}) {
   variant = product?.variant;
   
   const handelRemoveCartItem = () => {
+    setLoadingCart(true);
     productService.removeCartItem(userData.user._id, product.id, variant)
     .then((data)=>{
       refresh([]);
+      setLoadingCart(false);
       console.log("Cart item removed successfully", data);
     })
     .catch((error) => {
+      setLoadingCart(false);
       console.error("Error removing cart item:", error);
     });    
   }
@@ -67,13 +73,23 @@ function CartCard({product, setCartItems}) {
                 />
             </span>
           </div>
-        <button 
-          onClick={() => {
-            handelRemoveCartItem();
-          }}
-          className="relative group text-black font-semibold py-2 px-4 rounded shadow group-hover:block transition-all duration-200 hover:bg-zinc-200 mt-3.5 cursor-pointer" type="submit">
-            Remove
-          </button>
+       <button 
+          onClick={handelRemoveCartItem}
+          disabled={loadingCart}
+          className={`group text-black font-semibold py-2 px-4 rounded shadow transition-all duration-200 mt-3.5 cursor-pointer flex items-center justify-center gap-2 ${
+            loadingCart ? 'bg-zinc-300 cursor-not-allowed' : 'hover:bg-zinc-200'
+          }`} 
+          type="button"
+        >
+          {loadingCart && (
+            <svg className="animate-spin h-5 w-5 text-black" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          )}
+          Remove
+      </button>
+
 
       </div>
     </div>
