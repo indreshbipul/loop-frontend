@@ -10,7 +10,7 @@ import UserSignUp from '../auth/UserSignUp.jsx'
 import Myorder from '../pages/Myorders.jsx'
 import Account from '../pages/account.jsx'
 import Checkout from '../pages/checkout.jsx'
-import Addaddress from '../pages/addaddres.jsx'
+import Addaddress from '../pages/addAddres.jsx'
 import Address from '../pages/address.jsx'
 import Wishlist from '../pages/wishlist.jsx'
 
